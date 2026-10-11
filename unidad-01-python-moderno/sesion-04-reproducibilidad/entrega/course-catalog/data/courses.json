@@ -1,0 +1,17 @@
+[
+  {
+    "code": "PY01",
+    "title": "Python foundations",
+    "hours": 12
+  },
+  {
+    "code": "PY02",
+    "title": "Python for data analysis",
+    "hours": 16
+  },
+  {
+    "code": "ML01",
+    "title": "Machine learning introduction",
+    "hours": 20
+  }
+]
