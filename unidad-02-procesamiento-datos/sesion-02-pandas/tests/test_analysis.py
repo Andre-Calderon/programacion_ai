@@ -2,7 +2,12 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from titanic.analysis import numerical_arrays, prepare_passengers, survival_by_group
+from titanic.analysis import (
+    missing_age_by_class,
+    numerical_arrays,
+    prepare_passengers,
+    survival_by_group,
+)
 
 
 @pytest.fixture
@@ -126,3 +131,10 @@ def test_missing_columns_and_empty_csv_are_rejected(tmp_path, small_table):
     small_table.iloc[:0].to_csv(path, index=False)
     with pytest.raises(ValueError, match="empty"):
         load_passengers(path)
+
+
+def test_missing_age_by_class(small_table: pd.DataFrame):
+    result = missing_age_by_class(prepare_passengers(small_table))
+    assert result["Pclass"].tolist() == [1, 3]
+    assert result["passengers"].tolist() == [2, 1]
+    assert result["missing_age_rate"].tolist() == [0.5, 0.0]

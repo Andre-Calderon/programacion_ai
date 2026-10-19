@@ -109,3 +109,11 @@ def test_missing_dataset_does_not_create_output(tmp_path, monkeypatch):
     )
     assert app.main() == 1
     assert not output.exists()
+
+
+def test_label_summary_reports_proportions_and_empty_classes():
+    labels = torch.tensor([0, 0, 2, 2, 2], dtype=torch.int64)
+    summary = label_summary(labels, ["class_a", "class_b", "class_c"])
+    assert [row["count"] for row in summary] == [2, 0, 3]
+    assert [row["proportion"] for row in summary] == pytest.approx([0.4, 0.0, 0.6])
+    assert sum(row["proportion"] for row in summary) == pytest.approx(1.0)

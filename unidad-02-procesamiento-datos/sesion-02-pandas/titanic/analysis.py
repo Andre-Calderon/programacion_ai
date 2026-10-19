@@ -56,6 +56,14 @@ def survival_by_group(prepared: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def missing_age_by_class(prepared: pd.DataFrame) -> pd.DataFrame:
+    """Report passengers and the share of missing ages for each class."""
+    return prepared.groupby("Pclass", as_index=False, dropna=False).agg(
+        passengers=("age_missing", "size"),
+        missing_age_rate=("age_missing", "mean"),
+    )
+
+
 def numerical_arrays(prepared: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
     """Return numerical features and labels for later tensor exploration."""
     if not prepared["Survived"].isin([0, 1]).all():
